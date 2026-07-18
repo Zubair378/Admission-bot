@@ -1,0 +1,36 @@
+name: Run Admissions Bot
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes
+  workflow_dispatch:          # lets you also trigger it manually from GitHub's UI
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install sentence-transformers chromadb pypdf python-dotenv google-generativeai google-auth-oauthlib google-auth-httplib2 google-api-python-client gspread google-genai
+
+      - name: Reconstruct secret files
+        run: |
+          echo '${{ secrets.GMAIL_CREDENTIALS_JSON }}' > credentials.json
+          echo '${{ secrets.GMAIL_TOKEN_JSON }}' > token.json
+          echo '${{ secrets.SHEETS_SERVICE_ACCOUNT_JSON }}' > service_account.json
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
+          echo "SHEET_ID=${{ secrets.SHEET_ID }}" >> .env
+
+      - name: Build knowledge base
+        run: python ingest.py
+
+      - name: Run bot
+        run: python bot.py

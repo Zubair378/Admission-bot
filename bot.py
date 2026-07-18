@@ -203,7 +203,6 @@ def process_emails():
 
 
 if __name__ == "__main__":
-    print("Admissions bot started. Polling every 60 seconds. Press Ctrl+C to stop.")
-    while True:
-        process_emails()
-        time.sleep(60)
+    print("Running admissions bot check...")
+    process_emails()
+    print("Check complete.")

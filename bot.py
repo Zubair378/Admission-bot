@@ -21,7 +21,7 @@ load_dotenv()
 
 # Initialize the Gemini Client (automatically pulls GEMINI_API_KEY from .env)
 ai = genai.Client()
-GEMINI_MODEL = "gemini-flash-lite-latest"
+GEMINI_MODEL = "gemini-3.5-flash"
 
 THRESHOLD = 0.40  # calibrated in Day 2 testing — below this, route to SPECIAL
 

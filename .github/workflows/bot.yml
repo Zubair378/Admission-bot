@@ -2,7 +2,7 @@ name: Run Admissions Bot
 
 on:
   schedule:
-    - cron: '*/10 * * * *'   # every 10 minutes
+    - cron: '*/300 * * * *'   # every 10 minutes
   workflow_dispatch:          # lets you also trigger it manually from GitHub's UI
 
 jobs:
